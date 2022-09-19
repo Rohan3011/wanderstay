@@ -10,20 +10,19 @@ import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
 import { live, discover } from "../data";
 import Cards from "../components/Cards";
+import searchResults from "../data";
+import Fade from "react-reveal/Fade";
 
-export default function Home({ exploreData, liveAnywhere }) {
+import wallpaper from "../public/images/results/1.jpg";
+import InfoCard from "../components/InfoCard";
+
+export default function Host({}) {
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
 
   return (
     <div>
       <Head>
-        <title>Vacation Rental System </title>
+        <title>Vacation Rental System: Host </title>
 
         <link rel="shortcut icon" href="https://www.airbnb.co.in/favicon.ico" />
       </Head>
@@ -32,36 +31,22 @@ export default function Home({ exploreData, liveAnywhere }) {
       ) : (
         <div>
           <Header />
-          <Banner />
+
           <MobileNav />
           <main className="max-w-7xl mx-auto px-8 p-10 pb-16 rounded-lg m-5 shadow-xl sm:px-16">
-            <section className="pt-6">
-              <h2 className="text-3xl sm:text-4xl font-semibold pb-5">
-                Explore Nearby
-              </h2>
-
-              <SmallCard />
-
-              <LargeCard
-                img="https://links.papareact.com/4cj"
-                title="The Greatest Outdoors"
-                description="Wishlists curated by VacRent."
-                buttonText="Get Inspired"
-              />
-            </section>
-            <section className="pt-6">
-              <Cards {...live} />
-
-              <div className="pt-20">
-                <Cards {...discover} />
+            <Fade>
+              <div className="flex flex-col  ">
+                <InfoCard
+                  img={wallpaper}
+                  location={""}
+                  title={"Hawaiii Fuck off"}
+                  description={"amaizinf usaeg ladfj laf d"}
+                  star={4}
+                  price={342}
+                  total={2342}
+                />
               </div>
-              <HostingCard
-                img="https://a0.muscache.com/im/pictures/5b4dc94a-0b4c-4c27-b50f-9c5a5b93c775.jpg"
-                title="Try hosting"
-                description="Earn extra income and unlock new opportunities by sharing your space."
-                buttonText="Learn more"
-              />
-            </section>
+            </Fade>{" "}
           </main>
           <footer>
             <Footer />

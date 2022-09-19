@@ -8,9 +8,9 @@ import { bookNow, removeStay, selectItems } from "../slices/bookSlice";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
-const stripePromise = loadStripe(
-  "pk_test_51IuEbNSFhYF5q8wPMgrqb89U1crXcPveRwuQXZAItdXm4HOP0G3kkHKPJ4b9VgPm0OiOCV5CtapVLnj0k7vznNq600asGDXT0u"
-);
+// const stripePromise = loadStripe(
+//   "pk_test_51IuEbNSFhYF5q8wPMgrqb89U1crXcPveRwuQXZAItdXm4HOP0G3kkHKPJ4b9VgPm0OiOCV5CtapVLnj0k7vznNq600asGDXT0u"
+// );
 
 const InfoCard = ({
   id,
@@ -37,29 +37,29 @@ const InfoCard = ({
       })
     );
   };
-  const createCheckoutSession = async () => {
-    if (!session) {
-      alert("Please sign in");
-    }
+  // const createCheckoutSession = async () => {
+  //   if (!session) {
+  //     alert("Please sign in");
+  //   }
 
-    if (session) {
-      const stripe = await stripePromise;
-      const newPrice = parseInt(price.slice(1, -1)) * 101;
-      const checkoutSession = await axios.post("/api/create-checkout-session", {
-        img: img,
-        title: title,
-        description: description,
-        price: newPrice,
-      });
-      const result = await stripe.redirectToCheckout({
-        sessionId: checkoutSession.data.id,
-      });
+  //   if (session) {
+  //     const stripe = await stripePromise;
+  //     const newPrice = parseInt(price.slice(1, -1)) * 101;
+  //     const checkoutSession = await axios.post("/api/create-checkout-session", {
+  //       img: img,
+  //       title: title,
+  //       description: description,
+  //       price: newPrice,
+  //     });
+  //     const result = await stripe.redirectToCheckout({
+  //       sessionId: checkoutSession.data.id,
+  //     });
 
-      if (result.error) {
-        alert(result.error.message);
-      }
-    }
-  };
+  //     if (result.error) {
+  //       alert(result.error.message);
+  //     }
+  //   }
+  // };
 
   //   const createCheckoutSession = async () => {
   //     const stripe = await stripePromise;
@@ -112,7 +112,7 @@ const InfoCard = ({
                     return (
                       <button
                         role="link"
-                        onClick={createCheckoutSession}
+                        onClick={() => {}}
                         className="bg-red-400 py-1.5 text-white rounded-xl mt-2 shadow-md transition transform duration-200 ease-out hover:scale-105 active:scale-90 font-semibold px-3"
                       >
                         {!session ? "Sign in to book" : "Pay Now"}

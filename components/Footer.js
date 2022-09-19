@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Image from "next/image";
 import { Globe, DollarSign, Facebook, Twitter, Instagram } from "react-feather";
 
-
 export default function Footer() {
   return (
     <FooterSection>
@@ -10,14 +9,14 @@ export default function Footer() {
         <span>
           <h2>About</h2>
           <ul>
-            <li>How Rozbnb works</li>
+            <li>How Vacation Rental System works</li>
             <li>Newsroom</li>
-            <li>Rozbnb 2021</li>
+            <li>Vacation Rental System 2021</li>
             <li>Investors</li>
-            <li>Rozbnb Plus</li>
-            <li>Rozbnb Luxe</li>
+            <li>Vacation Rental System Plus</li>
+            <li>Vacation Rental System Luxe</li>
             <li className="lg-hidden">HotelTonight</li>
-            <li className="lg-hidden">Rozbnb for Work</li>
+            <li className="lg-hidden">Vacation Rental System for Work</li>
             <li className="lg-hidden">Made possible by Hosts</li>
             <li className="lg-hidden">Careers</li>
             <li className="lg-hidden">Founders&apos; Letter</li>
@@ -28,10 +27,10 @@ export default function Footer() {
           <ul>
             <li>Diversity & Belonging</li>
             <li>Accessibility</li>
-            <li>Rozbnb Associates</li>
+            <li>Vacation Rental System Associates</li>
             <li>Frontline Stays</li>
             <li>Guest Referrals</li>
-            <li>Rozbnb.org</li>
+            <li>Vacation Rental System.org</li>
           </ul>
         </span>
         <span>
@@ -56,29 +55,28 @@ export default function Footer() {
           </ul>
         </span>
         <span className="footer-bottom">
-
           <p>
             <span>
               <Globe className="globe" />
               English
             </span>
-            <span className={"cursor-pointer"}>
-             <span className="mr-[0.5rem] font-extrabold ">£ </span> GPB
-            </span>
             <span className={"mr-[1rem]"}>
               <Facebook />
             </span>
-              <Twitter/>
-            <span >
-            </span>
+            <Twitter />
+            <span></span>
             <span className={"ml-0"}>
               <Instagram />
             </span>
           </p>
           <p>
-            &copy; 2021{" "}
-            <a href="https://rozen-portfolio.web.app/" target="_blank" rel="noreferrer">
-              Rozen Deedi
+            &copy; 2022
+            <a
+              href="https://github.com/Rohan3011"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Rohan Kamble dev
             </a>
           </p>
         </span>
@@ -88,7 +86,7 @@ export default function Footer() {
 }
 
 const FooterSection = styled.footer`
-  padding: 5rem ;
+  padding: 5rem;
   background: #efeff5;
 
   h2 {
@@ -136,30 +134,30 @@ const FooterSection = styled.footer`
       justify-content: space-between;
       a {
         margin-left: 0.5rem;
-          cursor: pointer;
+        cursor: pointer;
       }
       a:hover {
         text-decoration: underline;
-          cursor: pointer;
+        cursor: pointer;
         color: #e0565b;
       }
       svg {
         height: 1rem;
-          cursor: pointer;
+        cursor: pointer;
       }
       svg.globe {
-          cursor: pointer;
+        cursor: pointer;
         margin-right: 0.1rem;
       }
       span + span {
         margin-left: 1rem;
-          cursor: pointer;
+        cursor: pointer;
       }
       p,
       span {
         display: flex;
         align-items: center;
-          cursor: pointer;
+        cursor: pointer;
       }
     }
   }
