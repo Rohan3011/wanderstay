@@ -28,7 +28,7 @@
 //                     />
 //                     </div>
 
-//                     <div className="mt-16 mx-auto  bg-red-400 max-width-30 lg:w-60 md:w-40 text-white items-center  focus:hover:ring-2 uppercase text-center rounded-xl py-2 cursor-pointer hover:bg-red-500 transition duration-200" onClick={() => signIn(provider.id)} >
+//                     <div className="mt-16 mx-auto  bg-[#e61e4d] max-width-30 lg:w-60 md:w-40 text-white items-center  focus:hover:ring-2 uppercase text-center rounded-xl py-2 cursor-pointer hover:bg-red-500 transition duration-200" onClick={() => signIn(provider.id)} >
 //                     Sign in with {provider.name}
 //                     </div>
 //             </div>
@@ -42,7 +42,12 @@
 
 // export default signin;
 
-import { providers, signIn, getSession, csrfToken } from "next-auth/client";
+import {
+  getProviders,
+  signIn,
+  getSession,
+  getCsrfToken,
+} from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 import NextNProgress from "nextjs-progressbar";
@@ -74,7 +79,7 @@ const Login = ({ providers }) => {
               />
             </div>
             <button
-              className="mt-9 md:mb-0 mb-10 text-xs  p-2 mx-auto  bg-red-400 max-width-30 lg:w-60 md:w-40 text-white items-center  focus:hover:ring-2 uppercase text-center rounded-xl py-2 cursor-pointer hover:bg-red-500 transition outline-none
+              className="mt-9 md:mb-0 mb-10 text-xs  p-2 mx-auto  bg-[#e61e4d] max-width-30 lg:w-60 md:w-40 text-white items-center  focus:hover:ring-2 uppercase text-center rounded-xl py-2 cursor-pointer hover:bg-red-500 transition outline-none
                  duration-200"
               onClick={() => signIn(provider.id)}
             >
@@ -100,8 +105,8 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      providers: await providers(context),
-      csrfToken: await csrfToken(context),
+      providers: await getProviders(context),
+      csrfToken: await getCsrfToken(context),
     },
   };
 }

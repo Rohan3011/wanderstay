@@ -4,9 +4,9 @@ import { Globe, DollarSign, Facebook, Twitter, Instagram } from "react-feather";
 
 export default function Footer() {
   return (
-    <FooterSection>
+    <MyFooterSection>
       <div className="footerInner">
-        <span>
+        <div>
           <h2>About</h2>
           <ul>
             <li>How Vacation Rental System works</li>
@@ -21,8 +21,8 @@ export default function Footer() {
             <li className="lg-hidden">Careers</li>
             <li className="lg-hidden">Founders&apos; Letter</li>
           </ul>
-        </span>
-        <span>
+        </div>
+        <div>
           <h2>Community</h2>
           <ul>
             <li>Diversity & Belonging</li>
@@ -32,8 +32,8 @@ export default function Footer() {
             <li>Guest Referrals</li>
             <li>Vacation Rental System.org</li>
           </ul>
-        </span>
-        <span>
+        </div>
+        <div>
           <h2>Host</h2>
           <ul>
             <li>Host your home</li>
@@ -43,8 +43,8 @@ export default function Footer() {
             <li>Resource Centre</li>
             <li>Community Centre</li>
           </ul>
-        </span>
-        <span>
+        </div>
+        <div>
           <h2>Support</h2>
           <ul>
             <li>Our COVID-19 Response</li>
@@ -53,21 +53,21 @@ export default function Footer() {
             <li>Neighbourhood Support</li>
             <li>Trust & Safety</li>
           </ul>
-        </span>
-        <span className="footer-bottom">
+        </div>
+        <div className="footer-bottom">
           <p>
-            <span>
+            <div>
               <Globe className="globe" />
               English
-            </span>
-            <span className={"mr-[1rem]"}>
+            </div>
+            <div className={"mr-[1rem]"}>
               <Facebook />
-            </span>
+            </div>
             <Twitter />
-            <span></span>
-            <span className={"ml-0"}>
+            <div></div>
+            <div className={"ml-0"}>
               <Instagram />
-            </span>
+            </div>
           </p>
           <p>
             &copy; 2022
@@ -79,13 +79,13 @@ export default function Footer() {
               Rohan Kamble dev
             </a>
           </p>
-        </span>
+        </div>
       </div>
-    </FooterSection>
+    </MyFooterSection>
   );
 }
 
-const FooterSection = styled.footer`
+const MyFooterSection = styled.footer`
   padding: 5rem;
   background: #efeff5;
 

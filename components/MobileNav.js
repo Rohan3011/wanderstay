@@ -2,15 +2,13 @@ import styled from "styled-components";
 import { Home, Search, Heart, User } from "react-feather";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { signIn, useSession, signOut } from "next-auth/client";
-import {
-  UserCircleIcon,
-} from "@heroicons/react/solid";
+import { signIn, useSession, signOut } from "next-auth/react";
+import { UserCircleIcon } from "@heroicons/react/solid";
 
 export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const [session] = useSession();
+  const { data: session, status } = useSession();
 
   return (
     <MobileNavDiv className={isOpen ? "open" : null}>
@@ -38,7 +36,20 @@ export default function MobileNav() {
           <Heart /> Wishlist
         </div>
         <div className="item">
-           {session?.user ? <img src={session?.user?.image} alt={session?.user?.name} className="h-7 cursor-pointer rounded-full mr-[1.3rem]"  onClick={() => signOut()}/> :<UserCircleIcon className="h-7 cursor-pointer"onClick={() => router.push("/signin")} />}Profile
+          {session?.user ? (
+            <img
+              src={session?.user?.image}
+              alt={session?.user?.name}
+              className="h-7 cursor-pointer rounded-full mr-[1.3rem]"
+              onClick={() => signOut()}
+            />
+          ) : (
+            <UserCircleIcon
+              className="h-7 cursor-pointer"
+              onClick={() => router.push("/signin")}
+            />
+          )}
+          Profile
         </div>
       </div>
     </MobileNavDiv>
@@ -61,7 +72,7 @@ const MobileNavDiv = styled.div`
       transform: translateX(3rem);
       flex-direction: column;
       gap: 0.5rem;
-      background: rgba(249,220,155,0.5) ;
+      background: rgba(249, 220, 155, 0.5);
       backdrop-filter: blur(9px);
       color: #1e1e38;
       padding: 1rem 1.5rem 1rem 0.75rem;
@@ -137,15 +148,13 @@ const MobileNavDiv = styled.div`
         transform: translateX(0);
       }
       .toggle {
-
         span {
-         
           &::before {
             background: #e0565b;
             transform: translate(0) rotate(45deg);
           }
           &::after {
-            background:  #e0565b;
+            background: #e0565b;
             transform: translate(0) rotate(-45deg);
           }
         }

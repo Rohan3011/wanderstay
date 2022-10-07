@@ -7,10 +7,11 @@ import Head from "next/head";
 import Fade from "react-reveal/Fade";
 import Map from "../components/Map";
 import MobileNav from "../components/MobileNav";
-import searchResults from "../data";
+// import searchResults from "../data";
 import { useState } from "react";
+import axios from "axios";
 
-function Search() {
+function Search({ searchResults }) {
   const router = useRouter();
   const { location, startDate, endDate, noOfGuests } = router.query;
 
@@ -76,11 +77,14 @@ function Search() {
 
 export default Search;
 
-// export async function getServerSideProps() {
-//   const searchResults = SearchResultsData;
-//   return {
-//     props: {
-//       searchResults,
-//     },
-//   };
-// }
+export async function getServerSideProps() {
+  const searchResults = await fetch("https://www.jsonkeeper.com/b/GEDY").then(
+    (res) => res.json()
+  );
+
+  return {
+    props: {
+      searchResults,
+    },
+  };
+}

@@ -17,7 +17,7 @@ export default function Home({ exploreData, liveAnywhere }) {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 2000);
   }, []);
 
   return (
