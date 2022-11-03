@@ -1,27 +1,25 @@
 import Head from "next/head";
 import Banner from "../components/Banner";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
 import LargeCard from "../components/LargeCard";
-import MobileNav from "../components/MobileNav";
 import SmallCard from "../components/SmallCard";
 import HostingCard from "../components/HostingCard";
 import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
 import { live, discover } from "../data";
 import Cards from "../components/Cards";
+import MainLayout from "../components/MainLayout";
 
-export default function Home({ exploreData, liveAnywhere }) {
+export default function Home() {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 100);
   }, []);
 
   return (
-    <div>
+    <>
       <Head>
         <title>Vacation Rental System </title>
 
@@ -30,10 +28,8 @@ export default function Home({ exploreData, liveAnywhere }) {
       {loading ? (
         <Loader />
       ) : (
-        <div>
-          <Header />
+        <MainLayout>
           <Banner />
-          <MobileNav />
           <main className="max-w-7xl mx-auto px-8 p-10 pb-16 rounded-lg m-5 shadow-xl sm:px-16">
             <section className="pt-6">
               <h2 className="text-3xl sm:text-4xl font-semibold pb-5">
@@ -63,12 +59,10 @@ export default function Home({ exploreData, liveAnywhere }) {
               />
             </section>
           </main>
-          <footer>
-            <Footer />
-          </footer>
-        </div>
+          {/* <Footer /> */}
+        </MainLayout>
       )}
-    </div>
+    </>
   );
 }
 

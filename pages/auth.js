@@ -9,7 +9,7 @@ const uiConfig = {
 
 function SignInScreen() {
   return (
-    <div className="max-w-md bg-[#e61e4d] flex flex-col justify-center items-center">
+    <div className="max-w-md bg-[#fa5252] flex flex-col justify-center items-center">
       <h1>Vacation Rental Login</h1>
       {/* <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} /> */}
     </div>

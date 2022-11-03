@@ -6,7 +6,7 @@ export function MyAccentButton({ children, onClick, leftIcon }) {
       onClick={onClick}
       leftIcon={leftIcon}
       variant="gradient"
-      gradient={{ from: "#e61e4d", to: "#d70466", deg: 35 }}
+      gradient={{ from: "#fa5252", to: "#d70466", deg: 35 }}
     >
       <Text size="sm">{children}</Text>
     </Button>

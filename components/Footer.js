@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import Image from "next/image";
-import { Globe, DollarSign, Facebook, Twitter, Instagram } from "react-feather";
+import { Globe, Facebook, Twitter, Instagram } from "react-feather";
 
 export default function Footer() {
   return (

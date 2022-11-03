@@ -1,6 +1,6 @@
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { getSession } from "next-auth/client";
-import { useRouter } from "next/dist/client/router";
+import { getSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import Header from "../components/Header";
 import Head from "next/head";
 
@@ -29,7 +29,7 @@ const Success = ({ session }) => {
           </div>
           <button
             onClick={() => router.push("/")}
-            className="bg-[#e61e4d] text-white rounded-xl font-semibold py-2 mt-8 "
+            className="bg-[#fa5252] text-white rounded-xl font-semibold py-2 mt-8 "
           >
             Return to Home
           </button>
@@ -40,13 +40,16 @@ const Success = ({ session }) => {
 };
 
 export async function getServerSideProps(context) {
-  const session = await getSession(context);
+  const { req } = context;
+  const session = await getSession({ req });
 
-  return {
-    props: {
-      session,
-    },
-  };
+  if (!session) {
+    return {
+      redirect: { destination: "/signin", permanent: false },
+    };
+  }
+
+  return { props: { session } };
 }
 
 export default Success;

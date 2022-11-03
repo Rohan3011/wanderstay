@@ -91,7 +91,7 @@ function Banner(props) {
                   Want to go on an adventure?
                 </h3>
                 <p className="-ml-5 ">Go on now. be spontaneous!</p>
-                <button className="text-sm text-white hover:bg-[#e61e4d]  hover:shadow-md transform transition-all duration-300 shadow-xl -ml-8 bg-gray-900 px-4 py-2 rounded-lg mt-5">
+                <button className="text-sm text-white hover:bg-[#fa5252]  hover:shadow-md transform transition-all duration-300 shadow-xl -ml-8 bg-gray-900 px-4 py-2 rounded-lg mt-5">
                   Take me to nirvana!
                 </button>
               </motion.div>

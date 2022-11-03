@@ -10,18 +10,37 @@ import {
   TrashIcon,
   SearchCircleIcon,
   LogoutIcon,
+  CubeIcon,
 } from "@heroicons/react/solid";
-import { Menu, Text, Button, Modal, LoadingOverlay } from "@mantine/core";
+import {
+  Menu,
+  Text,
+  Button,
+  Modal,
+  LoadingOverlay,
+  ActionIcon,
+} from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-import { Globe, LogIn, LogOut, MessageCircle, Settings } from "react-feather";
+import {
+  Globe,
+  LogIn,
+  LogOut,
+  MessageCircle,
+  Settings,
+  Compass,
+  ArrowRight,
+  ChevronRight,
+  Search,
+} from "react-feather";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { useSession, signIn, signOut } from "next-auth/react";
 import { DateRange, DateRangePicker } from "react-date-range";
 import { useRouter } from "next/dist/client/router";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MyAccentButton } from "./shared";
 import styled from "styled-components";
+import { NextLink } from "@mantine/next";
 
 function Header({ placeholder }) {
   const [searchInput, setSearchInput] = useState("");
@@ -32,40 +51,15 @@ function Header({ placeholder }) {
   const { data: session, status } = useSession();
   const [showMenu, setShowMenu] = useState(false);
   const [handleShow, setHandleShow] = useState(false);
+  const searchRef = useRef(null);
 
-  const goToHomePage = () => router.push("/");
-  const goToSignInPage = () => router.push("/signin");
-  const goToHostPage = () => router.push("/host");
-  const goToExplorePage = () => router.push("/explore");
+  // const goToHomePage = () => router.push("/");
+  // const goToSignInPage = () => router.push("/signin");
+  // const goToHostPage = () => router.push("/host");
+  // const goToExplorePage = () => router.push("/explore");
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
-  };
-  const handleSelect = (ranges) => {
-    setStartDate(ranges.selection.startDate);
-    setEndDate(ranges.selection.endDate);
-  };
-
-  const resetInput = () => {
-    setSearchInput("");
-  };
-
-  const search = () => {
-    router.push({
-      pathname: "search",
-      query: {
-        location: searchInput,
-        startDate: startDate.toISOString(),
-        endDate: endDate.toISOString(),
-        noOfGuests,
-      },
-    });
-  };
-
-  const selectionRange = {
-    startDate: startDate,
-    endDate: endDate,
-    key: "selection",
   };
 
   useEffect(() => {
@@ -81,49 +75,65 @@ function Header({ placeholder }) {
     };
   }, []);
 
+  const focusOnSearchBar = () => {
+    searchRef.current.focus();
+  };
+
   return (
     <header
-      className={`fixed top-0 z-40 grid w-screen grid-cols-1  transition duration-100 ease-out p-5 ${
+      className={`fixed top-0 z-40 w-screen flex justify-between items-center transition duration-100 ease-out h-20 md:px-10 ${
         handleShow ? "bg-white shadow-md" : ""
-      } md:grid-cols-3  z-50 grid grid-flow-row grid-cols-2 p-5 md:px-10 sm:grid-cols-3 `}
+      } `}
     >
+      {/* Left */}
       <div className="relative h-15 flex items-center md:h-10 space-x-6  my-auto cursor-pointer ">
-        <NavLink isActive={router.asPath == "/"} onClick={goToHomePage}>
-          <p>Home</p>
-        </NavLink>
-        <NavLink
-          onClick={goToExplorePage}
-          isActive={router.asPath == "/explore"}
+        <Button
+          variant="transparent"
+          color="dark"
+          leftIcon={<CubeIcon className="w-5 h-5" />}
+          component={NextLink}
+          href="/"
         >
-          <p>Explore</p>
-        </NavLink>
+          <span className="select-none text-xl font-semibold hidden sm:block">
+            Vaction Rental
+          </span>
+        </Button>
       </div>
       {/* Search */}
-      <div className="flex items-center py-2 bg-white rounded-full md:border-2 md:shadow-sm  ">
+      <div className="w-full max-w-sm md:max-w-lg flex items-center py-2 bg-white rounded-full md:border-2 md:shadow-sm focus-within:ring-2 ring-red-500 ">
         <input
+          ref={searchRef}
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           type="text"
-          className="flex-grow pl-2 md:pl-4 text-sm text-gray-400 placeholder-gray-400 bg-transparent outline-none "
+          className="flex-grow pl-2 md:pl-4 text-base text-gray-700 placeholder-gray-400 bg-transparent outline-none "
           placeholder={placeholder || "Start Your Search..."}
         />
-        <SearchIcon className="hidden h-8 p-2 text-white bg-[#e61e4d] rounded-full cursor-pointer md:inline-flex md:mx-2" />
+        <ActionIcon
+          variant="filled"
+          color="red"
+          className="rounded-full mr-2 w-8 h-8"
+        >
+          <Search size={18} />
+        </ActionIcon>
       </div>
       {/* Right */}
-      <div className="hidden md:flex items-center justify-end space-x-2 text-gray-400">
-        <MyAccentButton
-          onClick={goToHostPage}
+      <div className="hidden md:flex items-center justify-end space-x-2">
+        <Button
           leftIcon={<Globe className="h-5" />}
+          component={NextLink}
+          href="/host"
+          color={"red"}
         >
           <Text size="sm">Become a host</Text>
-        </MyAccentButton>
+        </Button>
 
         {status == "authenticated" ? (
           <div>
             <MyMenu
               opened={showMenu}
               handleClose={toggleMenu}
-              goToHostPage={goToHostPage}
+              handleSearch={focusOnSearchBar}
             >
               <img
                 src={session.user?.image}
@@ -140,61 +150,11 @@ function Header({ placeholder }) {
               variant="default"
               color="blue"
               className="rounded"
-              onClick={goToSignInPage}
+              component={NextLink}
+              href="/signin"
             >
               <Text size="sm"> Login</Text>
             </Button>
-          </div>
-        )}
-      </div>
-
-      {/* Date range picker */}
-      <div className="absolute md:w-[580px]  top-20 md:left-[20%] lg:left-[30%]  z-50">
-        {searchInput && (
-          <div className="z-50 flex flex-col p-5 mt-5 bg-white shadow-md md:col-span-4 w-max rounded-xl   ">
-            <div className={"hidden md:inline-flex"}>
-              <DateRangePicker
-                ranges={[selectionRange]}
-                minDate={new Date()}
-                rangeColors={["#e61e4d"]}
-                onChange={handleSelect}
-              />
-            </div>
-            <div className={"md:hidden flex sm:p-0"}>
-              <DateRange
-                ranges={[selectionRange]}
-                minDate={new Date()}
-                rangeColors={["#e61e4d"]}
-                onChange={handleSelect}
-              />
-            </div>
-            <div className="flex w-screen md:w-[580px] items-center border-b mb-4 top-auto right-auto bottom-auto left-auto bg-white">
-              <h2 className="flex-grow text-2xl font-semibold">
-                Number of Guests
-              </h2>
-              <UsersIcon className="h-5 justify-right" />
-              <input
-                value={noOfGuests}
-                onChange={(e) => setNoOfGuests(e.target.value)}
-                min={1}
-                type="number"
-                className="w-12 pl-2 text-lg ml-2 rounded-md text-[#e61e4d] outline-none"
-              />
-            </div>
-            <div className="flex w-screen md:w-[580px]">
-              <button
-                className="w-1/2 text-gray-500 hover:shadow-inner md:flex-grow"
-                onClick={resetInput}
-              >
-                Cancel
-              </button>
-              <button
-                className="w-1/2 bg-[#e61e4d] h-8 text-white hover:bg-white  hover:text-[#e61e4d] hover:shadow-inner rounded-md md:flex-grow"
-                onClick={search}
-              >
-                Search
-              </button>
-            </div>
           </div>
         )}
       </div>
@@ -204,7 +164,7 @@ function Header({ placeholder }) {
 
 export default Header;
 
-function MyMenu({ children, goToHostPage }) {
+function MyMenu({ children, handleSearch }) {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   function handleLogout() {
@@ -219,10 +179,32 @@ function MyMenu({ children, goToHostPage }) {
         <Menu.Dropdown className="-translate-x-8">
           <Menu.Label>Application</Menu.Label>
           <Menu.Item icon={<Settings size={14} />}>Settings</Menu.Item>
-          <Menu.Item onClick={goToHostPage} icon={<Globe size={14} />}>
+          <Menu.Divider />
+          <Menu.Label>Navigation</Menu.Label>
+          <Menu.Item
+            component={NextLink}
+            href="/host"
+            icon={<Globe size={14} />}
+            rightSection={
+              <ActionIcon variant="transparent">
+                <ChevronRight size={14} />
+              </ActionIcon>
+            }
+          >
             Host
           </Menu.Item>
-          <Menu.Item icon={<PhotographIcon size={14} />}>Gallery</Menu.Item>
+          <Menu.Item
+            component={NextLink}
+            href="/explore"
+            icon={<Compass size={14} />}
+            rightSection={
+              <ActionIcon variant="transparent">
+                <ChevronRight size={14} />
+              </ActionIcon>
+            }
+          >
+            Explore
+          </Menu.Item>
           <Menu.Item
             icon={<SearchCircleIcon size={14} />}
             rightSection={
@@ -230,6 +212,7 @@ function MyMenu({ children, goToHostPage }) {
                 ⌘K
               </Text>
             }
+            onClick={handleSearch}
           >
             Search
           </Menu.Item>
@@ -289,21 +272,3 @@ function ModalToLogOut({ opened, handleClose }) {
     </>
   );
 }
-
-const NavLink = styled.div`
-  text-decoration: underline 0.15em
-    ${(props) => (props.isActive ? "#e61e4d" : "black")};
-  text-underline-offset: 0.2em;
-  transition: text-decoration-color 300ms, text-underline-offset 300ms;
-
-  &:hover,
-  &:focus {
-    text-decoration-color: #d70466;
-    text-underline-offset: 0.4em;
-  }
-
-  & > p {
-    color: ${(props) => (props.isActive ? "#e61e4d" : "black")};
-    font-size: large;
-  }
-`;

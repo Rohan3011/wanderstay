@@ -12,7 +12,7 @@ import "../styles/global.css";
 import Head from "next/head";
 const progress = new ProgressBar({
   size: 3,
-  color: "#e61e4d",
+  color: "#fa5252",
   className: "z-50",
   delay: 100,
 });

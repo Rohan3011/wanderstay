@@ -1,36 +1,61 @@
-import { HeartIcon } from "@heroicons/react/outline";
-import { StarIcon } from "@heroicons/react/solid";
+import { HeartIcon as OutlineHeart } from "@heroicons/react/outline";
+import { StarIcon, HeartIcon as SolidHeart } from "@heroicons/react/solid";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/dist/client/router";
 import { useDispatch, useSelector } from "react-redux";
 import { bookNow, removeStay, selectItems } from "../slices/bookSlice";
-import { Modal, Badge, Button, Loader, Alert } from "@mantine/core";
-import { useState } from "react";
-import updateListings from "../services/updateListings";
+import { Modal, Badge, Button, Loader, Alert, Spoiler } from "@mantine/core";
+import { useEffect, useState } from "react";
+import { updateListings, bookListings } from "../services/updateListings";
 import { showNotification } from "@mantine/notifications";
-import { AlertTriangle } from "react-feather";
+import { AlertTriangle, Heart } from "react-feather";
+import { addToFavourite } from "../services/addToFavourites";
 
 const InfoCard = ({
   id,
-  img,
+  image,
   location,
   title,
   description,
-  star,
-  price,
+  rating,
+  pricing,
   total,
   isBooked,
+  isLiked,
+  hostID,
+  renterID,
+  feature,
 }) => {
   const items = useSelector(selectItems);
   const [open, setOpen] = useState(false);
+  const [showCancelBooking, setShowCancelBooking] = useState(false);
+  const [isFavourite, setIsFavourite] = useState(false);
   const { data: session, status } = useSession();
   const dispatch = useDispatch();
+
+  const handleFavourite = () => setIsFavourite(!isFavourite);
 
   const continueToBooking = async () => {
     dispatch(
       bookNow({
         id,
-        img,
+        image,
+        location,
+        title,
+        description,
+        rating,
+        pricing,
+        total,
+        isBooked: true,
+      })
+    );
+  };
+
+  const removeBooking = async () => {
+    dispatch(
+      removeStay({
+        id,
+        image,
         title,
         description,
         total,
@@ -45,107 +70,134 @@ const InfoCard = ({
     setOpen(true);
   };
 
+  function ActionButtons() {
+    if (isBooked)
+      return (
+        <div className="w-full mt-1 flex justify-end items-center">
+          <Badge size="lg" color="blue" variant="filled">
+            Booked
+          </Badge>
+        </div>
+      );
+
+    const arr = items.filter((item) => item.id == id);
+
+    return (
+      <div className="w-full mt-1 flex justify-end items-center">
+        {arr.length ? (
+          <div className=" flex flex-row-reverse gap-2">
+            <Button color={"red"} role="link" onClick={createCheckoutSession}>
+              {!session ? "Sign in to book" : "Pay Now"}
+            </Button>
+            <Button
+              variant="outline"
+              color="gray"
+              onClick={() => setShowCancelBooking(true)}
+            >
+              {!session ? "Sign in to book" : "Cancel booking"}
+            </Button>
+          </div>
+        ) : (
+          <Button color="red" role="link" onClick={continueToBooking}>
+            {!session ? "Sign in to book" : "Book Now"}
+          </Button>
+        )}
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="flex flex-col md:flex-row py-7 px-3 border-b cursor-pointer  hover:shadow-lg transition duration-200 ease-out first:border-t">
-        <div className="relative h-32 w-[100%] md:h-52 md:w-80 flex-shrink-0">
-          <img className="rounded-2xl object-cover w-full h-full" src={img} />
+      <div className="relative flex flex-col md:flex-row py-7 px-3 border-b cursor-pointer hover:z-50 rounded-sm hover:ring-1 ring-gray-200 bg-white hover:drop-shadow-2xl transition duration-200 ease-out first:border-t">
+        <div className="relative h-40 w-[100%] md:h-52 md:w-80 flex-shrink-0">
+          <img className="rounded-2xl object-cover w-full h-full" src={image} />
         </div>
-        <div className="flex flex-col flex-grow pt-2 md:pt-0 md:pl-5">
+        <div className="flex flex-col flex-grow pt-5 md:pt-0 md:pl-5">
           <div className="flex justify-between">
             <p>{location}</p>
-            {isBooked ? (
-              <Badge size="lg" color="blue">
-                Booked
-              </Badge>
-            ) : (
-              <Badge size="lg" color="green">
-                Available
-              </Badge>
-            )}
-          </div>
-          <h4 className="text-xl">{title}</h4>
-          <div className="border-b w-10 pt-2" />
-          <p className="pt-2 text-sm text-gray-500 flex-grow ">{description}</p>
-          <div className="flex justify-between items-end">
-            <p className="flex items-center">
-              <StarIcon className="h-5 text-[#e61e4d]" /> {star}
-            </p>
-            <div className="flex flex-col justify-end -mt-2">
-              <p className="text-right lg:text-2xl font-semibold pb-2 pr-4">
-                {price}
-              </p>
-              <p className="text-right font-extralight text-sm">/month</p>
-              {!isBooked &&
-                (items.length > 0 ? (
-                  <>
-                    {items.map((item) => {
-                      if (item.id == id) {
-                        return (
-                          <button
-                            role="link"
-                            onClick={createCheckoutSession}
-                            className="bg-[#e61e4d] py-1.5 text-white rounded-xl mt-2 shadow-md transition transform duration-200 ease-out hover:scale-105 active:scale-90 font-semibold px-3"
-                          >
-                            {!session ? "Sign in to book" : "Pay Now"}
-                          </button>
-                        );
-                      } else {
-                        return (
-                          <button
-                            role="link"
-                            onClick={continueToBooking}
-                            className="bg-[#e61e4d] py-1.5 text-white rounded-xl mt-2 shadow-md transition transform duration-200 ease-out hover:scale-105 active:scale-90 font-semibold px-3"
-                          >
-                            {!session ? "Sign in to book" : "Book Now"}
-                          </button>
-                        );
-                      }
-                    })}
-                  </>
-                ) : (
-                  <button
-                    role="link"
-                    onClick={continueToBooking}
-                    className="bg-[#e61e4d] py-1.5 text-white rounded-xl mt-2 shadow-md transition transform duration-200 ease-out hover:scale-105 active:scale-90 font-semibold px-3"
-                  >
-                    {!session ? "Sign in to book" : "Book Now"}
-                  </button>
-                ))}
+            <div hidden={!session} onClick={handleFavourite}>
+              {isFavourite ? (
+                <SolidHeart className="w-6 h-6 text-red-500 transition-all duration-200" />
+              ) : (
+                <OutlineHeart className="w-6 h-6 text-gray-800 transition-all duration-200" />
+              )}
             </div>
           </div>
+          <div className="flex flex-col">
+            <h4 className="text-xl">{title}</h4>
+            <div className="flex w-full justify-start items-center gap-2 m-1">
+              {feature?.breakfast && (
+                <Badge size="sm" variant="dot" color={"blue"}>
+                  BreakFast
+                </Badge>
+              )}
+              {feature?.parking && (
+                <Badge size="sm" variant="dot" color={"blue"}>
+                  Parking
+                </Badge>
+              )}
+              {feature?.pets && (
+                <Badge size="sm" variant="dot" color={"blue"}>
+                  Pets Allowed
+                </Badge>
+              )}
+            </div>
+          </div>
+          <div className="border-b w-10 pt-2" />
+          <Spoiler
+            maxHeight={120}
+            showLabel="Show more"
+            hideLabel="Hide"
+            transitionDuration={0}
+          >
+            <p className="pt-2 text-sm text-gray-500 flex-grow ">
+              {description}
+            </p>
+          </Spoiler>
+          <div className="flex justify-between items-center">
+            <Rating rating={rating} />
+            <div className="flex justify-end items-end gap-2 pb-2">
+              <p className="text-right lg:text-2xl font-semibold">{`₹ ${pricing}`}</p>
+              <p className="h-full text-right font-light text-sm ">/night</p>
+            </div>
+          </div>
+          <ActionButtons />
         </div>
       </div>
-      <BookedModal id={id} opened={open} onClose={() => setOpen(false)} />
+      <BookedModal
+        id={id}
+        userID={session?.user.id}
+        opened={open}
+        onClose={() => setOpen(false)}
+      />
+      <ModalToCancelBooking
+        cancelBooking={removeBooking}
+        opened={showCancelBooking}
+        onClose={() => setShowCancelBooking(false)}
+      />
     </>
   );
 };
 
 export default InfoCard;
 
-const BookedModal = ({ id, opened, onClose }) => {
+const BookedModal = ({ id, opened, onClose, userID }) => {
   const router = useRouter();
-
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleBooking = async () => {
+  const handleBookingFailed = (err) => console.log(err);
+
+  const bookingDetails = { listingID: id, isBooked: "true", renterID: userID };
+
+  const handleBooking = () => {
     setIsLoading(true);
-    return await updateListings(id, { isBooked: "true" })
-      .then((msg) =>
-        showNotification({
-          title: "Booked Successfully",
-          message: msg,
-          color: "green",
-        })
+    return updateListings(id, bookingDetails)
+      .then(() =>
+        bookListings(userID, id, bookingDetails)
+          .then(() => router.push("/success"))
+          .catch((err) => handleBookingFailed(err))
       )
-      .then(() => router.reload(window.location.pathname))
-      .catch((err) =>
-        showNotification({
-          title: "Booking failed!",
-          message: err,
-          color: "red",
-        })
-      )
+      .catch((err) => handleBookingFailed(err))
       .finally(() => setIsLoading(false));
   };
 
@@ -167,8 +219,8 @@ const BookedModal = ({ id, opened, onClose }) => {
             title="Warning!"
             color="red"
           >
-            Booking is non-Refundable, guests pay the full price if they cancel,
-            make changes, or no-show
+            Booking is non-Refundable, guests pay the full pricing if they
+            cancel, make changes, or no-show
           </Alert>
           <div className="w-full h-16 flex items-end justify-end space-x-4">
             <Button color="gray" variant="outline" onClick={onClose}>
@@ -183,3 +235,47 @@ const BookedModal = ({ id, opened, onClose }) => {
     </Modal>
   );
 };
+
+function ModalToCancelBooking({ opened, onClose, cancelBooking }) {
+  function handleCancelBooking() {
+    cancelBooking();
+    handleClose();
+  }
+
+  function handleClose() {
+    onClose();
+  }
+
+  return (
+    <>
+      <Modal
+        centered
+        opened={opened}
+        onClose={handleClose}
+        title="Are you sure you want to cancel your booking?"
+      >
+        <div className="w-full h-16 flex items-end justify-end space-x-4">
+          <Button color="gray" variant="outline" onClick={handleCancelBooking}>
+            Yes, Cancel booking
+          </Button>
+          <Button color="red" variant="filled" onClick={handleClose}>
+            No
+          </Button>
+        </div>
+      </Modal>
+    </>
+  );
+}
+
+function Rating({ rating }) {
+  let star = parseInt(rating);
+  return (
+    <div className="flex items-center gap-1">
+      {Array(star)
+        .fill(1)
+        .map((el, idx) => (
+          <StarIcon className="h-5 text-red-500" key={idx} />
+        ))}
+    </div>
+  );
+}

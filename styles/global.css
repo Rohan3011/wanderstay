@@ -23,7 +23,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 8px;
-  background-color: #e61e4d;
+  background-color: #fa5252;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -62,11 +62,11 @@ html {
 
 
 
-.mapboxgl-popup-content{
+.mapboxgl-popup-content {
   background-color: rgba(255, 255, 255, 0.95);
 
 }
 
-.mapboxgl-popup-close-button{
+.mapboxgl-popup-close-button {
   padding: 5px;
 }
