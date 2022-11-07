@@ -141,7 +141,16 @@ export default function AddListingForm() {
             withAsterisk
             label="Location"
             placeholder="Pick one"
-            data={["Nashik, Maharashtra"]}
+            data={[
+              "Mumbai",
+              "Pune",
+              "Delhi",
+              "Bangalore",
+              "Hyderbad",
+              "Ahmedabad",
+              "Chennai",
+              "Kolkata",
+            ]}
             {...form.getInputProps("location")}
           />
 

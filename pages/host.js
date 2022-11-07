@@ -10,7 +10,6 @@ export default function Host(props) {
     <>
       <Head>
         <title>Vacation Rental System: Host </title>
-
         <link rel="shortcut icon" href="https://www.airbnb.co.in/favicon.ico" />
       </Head>
 

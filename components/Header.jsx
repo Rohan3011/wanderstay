@@ -106,6 +106,7 @@ export default function MyHeader({ placeholder }) {
     const searchRef = useRef(null);
     const { classes, theme } = useStyles();
     const [userMenuOpened, setUserMenuOpened] = useState(false);
+    const [showSearchError, setShowSearchError] = useState(false);
     const [handleShow, setHandleShow] = useState(false);
 
 
@@ -123,6 +124,11 @@ export default function MyHeader({ placeholder }) {
     }, []);
 
 
+    const handleSearchInput = (e) => {
+        setShowSearchError(false)
+        setSearchInput(e.target.value)
+    }
+
     const handleSelect = (ranges) => {
         setStartDate(ranges.selection.startDate);
         setEndDate(ranges.selection.endDate);
@@ -133,15 +139,20 @@ export default function MyHeader({ placeholder }) {
     };
 
     const search = () => {
-        router.push({
-            pathname: "search",
-            query: {
-                location: searchInput,
-                startDate: startDate.toISOString(),
-                endDate: endDate.toISOString(),
-                noOfGuests,
-            },
-        });
+        if (!searchInput.trim()) {
+            setShowSearchError(true);
+        } else {
+            router.push({
+                pathname: "search",
+                query: {
+                    location: searchInput,
+                    startDate: startDate.toISOString(),
+                    endDate: endDate.toISOString(),
+                    noOfGuests,
+                },
+            })
+        }
+
     };
 
     const selectionRange = {
@@ -170,11 +181,11 @@ export default function MyHeader({ placeholder }) {
                 <Group >
                     <Logo />
                 </Group>
-                <Group className="w-full max-w-sm md:max-w-lg flex items-center py-2 bg-white rounded-full md:border-2 md:shadow-sm focus-within:ring-2 ring-red-500 ">
+                <Group className="relative w-full max-w-sm md:max-w-lg flex items-center py-2 bg-white rounded-full md:border-2 md:shadow-sm focus-within:ring-2 ring-red-500 ">
                     <input
                         ref={searchRef}
                         value={searchInput}
-                        onChange={(e) => setSearchInput(e.target.value)}
+                        onChange={handleSearchInput}
                         type="text"
                         className="flex-grow pl-2 md:pl-4 text-base text-gray-700 placeholder-gray-400 bg-transparent outline-none "
                         placeholder={placeholder || "Start Your Search..."}
@@ -186,6 +197,7 @@ export default function MyHeader({ placeholder }) {
                     >
                         <Search size={18} onClick={search} />
                     </ActionIcon>
+                    {showSearchError && <span className="absolute bottom-0 translate-x-4 translate-y-4 text-red-500 text-xs">Search cannot be empty</span>}
                 </Group>
                 <Group className='hidden md:flex justify-center gap-2' >
 
