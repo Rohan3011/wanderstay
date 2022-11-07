@@ -4,6 +4,3 @@ The client/traveler arranges to rent the vacation rental property for a designat
 **
 
 **If you like to contirbute, you are free to fork and make a pr <3**
-
-# Final Build
-
