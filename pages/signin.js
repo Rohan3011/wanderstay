@@ -5,6 +5,7 @@ import {
   getCsrfToken,
 } from "next-auth/react";
 import { v4 as uuidv4 } from "uuid";
+import { BASE_URL } from "../config";
 
 const Login = ({ providers }) => {
   return (
@@ -38,7 +39,7 @@ const Login = ({ providers }) => {
               className="mt-9 md:mb-0 mb-10  p-2 mx-auto  bg-red-50 max-width-30 lg:w-60 md:w-40 t
                items-center  focus:hover:ring-2 uppercase text-center rounded-xl py-2 cursor-pointer hover:opacity-95 transition outline-none active:scale-95
                  duration-200"
-              onClick={() => signIn(provider.id)}
+              onClick={() => signIn(provider.id, { callbackUrl: BASE_URL })}
             >
               <span className="text-xs font-semibold text-center select-none ">
                 Sign In With {provider.name}
