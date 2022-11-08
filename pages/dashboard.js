@@ -83,9 +83,9 @@ export async function getServerSideProps(context) {
   const { req } = context;
   const session = await getSession({ req });
 
-  const listings = await fetch("http://localhost:3000/api/explore").then(
-    (res) => res.json()
-  );
+  const listings = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/explore`
+  ).then((res) => res.json());
 
   if (!session) {
     return {

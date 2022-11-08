@@ -54,9 +54,9 @@ function Search({ searchResults }) {
 export default Search;
 
 export async function getServerSideProps() {
-  const searchResults = await fetch("http://localhost:3000/api/explore").then(
-    (res) => res.json()
-  );
+  const searchResults = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/explore`
+  ).then((res) => res.json());
 
   return {
     props: {
