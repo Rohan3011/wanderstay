@@ -7,6 +7,7 @@ import { Tabs } from "@mantine/core";
 import { IconNotebook, IconAdjustments } from "@tabler/icons";
 import MainLayout from "../components/MainLayout";
 import MyHostingCard from "../components/MyHostingCard";
+import { BASE_URL } from "../config";
 
 export default function Dashboard({ session, listings }) {
   const myBookings = listings?.filter(
@@ -83,9 +84,9 @@ export async function getServerSideProps(context) {
   const { req } = context;
   const session = await getSession({ req });
 
-  const listings = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/explore`
-  ).then((res) => res.json());
+  const listings = await fetch(`${BASE_URL}/api/explore`).then((res) =>
+    res.json()
+  );
 
   if (!session) {
     return {

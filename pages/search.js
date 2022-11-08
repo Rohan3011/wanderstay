@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import InfoCard from "../components/InfoCard";
 import Head from "next/head";
 import Fade from "react-reveal/Fade";
+import { BASE_URL } from "../config";
 
 function Search({ searchResults }) {
   const router = useRouter();
@@ -54,9 +55,9 @@ function Search({ searchResults }) {
 export default Search;
 
 export async function getServerSideProps() {
-  const searchResults = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/explore`
-  ).then((res) => res.json());
+  const searchResults = await fetch(`${BASE_URL}/api/explore`).then((res) =>
+    res.json()
+  );
 
   return {
     props: {
