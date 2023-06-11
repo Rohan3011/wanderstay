@@ -27,7 +27,7 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <link rel="shortcut icon" href="https://www.airbnb.co.in/favicon.ico" />
+        <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>

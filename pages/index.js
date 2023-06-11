@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { live, discover } from "../data";
 import Cards from "../components/Cards";
 import MainLayout from "../components/MainLayout";
+import Footer from "../components/Footer";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -21,9 +22,9 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Vacation Rental System </title>
+        <title> WanderStay | Welcome! </title>
 
-        <link rel="shortcut icon" href="https://www.airbnb.co.in/favicon.ico" />
+        <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
       {loading ? (
         <Loader />
@@ -59,7 +60,7 @@ export default function Home() {
               />
             </section>
           </main>
-          {/* <Footer /> */}
+          <Footer />
         </MainLayout>
       )}
     </>

@@ -19,8 +19,8 @@ export default function Dashboard({ session, listings }) {
   return (
     <>
       <Head>
-        <title>Vacation Rental System: My Dashboard </title>
-        <link rel="shortcut icon" href="https://www.airbnb.co.in/favicon.ico" />
+        <title>WanderStay | My Dashboard </title>
+        <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
       <MainLayout>
         <main className="-mb-[60%] mt-[90px] relative mx-42 md:w-[73%] bg-white shadow-2xl m-3 ml-12  p-8 t-0 rounded-2xl mr-10 pb-10  md:ml-40 lg:ml-52 z-10">

@@ -1,22 +1,27 @@
-import { CubeIcon } from '@heroicons/react/solid';
-import { Button } from '@mantine/core';
-import { NextLink } from '@mantine/next';
-import React from 'react'
+import { CubeIcon } from "@heroicons/react/solid";
+import { Button } from "@mantine/core";
+import { NextLink } from "@mantine/next";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
 function Logo() {
-    return (
-        <Button
-            variant="transparent"
-            color="dark"
-            leftIcon={<CubeIcon className="w-5 h-5" />}
-            component={NextLink}
-            href="/"
-        >
-            <span className="select-none text-2xl font-bold hidden sm:block">
-                Vaction Rental
-            </span>
-        </Button>
-    )
+  return (
+    <Link href="/">
+      <div className="relative flex justify-between">
+        <Image
+          src="/logo.webp"
+          height="24px"
+          width="24px"
+          className="object-contain"
+          alt="wanderstay-logo"
+        />
+        <span className="hidden select-none font-bold sm:inline-block">
+          WanderStay
+        </span>
+      </div>
+    </Link>
+  );
 }
 
 export default Logo;

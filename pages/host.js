@@ -4,13 +4,14 @@ import HostingCard from "../components/HostingCard";
 import AddListingForm from "../components/AddListingForm";
 import Header from "../components/Header";
 import MainLayout from "../components/MainLayout";
+import Footer from "../components/Footer";
 
 export default function Host(props) {
   return (
     <>
       <Head>
-        <title>Vacation Rental System: Host </title>
-        <link rel="shortcut icon" href="https://www.airbnb.co.in/favicon.ico" />
+        <title>WanderStay | Host </title>
+        <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
 
       <MainLayout>
@@ -23,7 +24,7 @@ export default function Host(props) {
         <main className="-mb-[60%] mt-[90px] relative mx-42 md:w-[73%] bg-white shadow-2xl m-3 ml-12  p-8 t-0 rounded-2xl mr-10 pb-10  md:ml-40 lg:ml-52 z-10">
           <AddListingForm />
         </main>
-        {/* <Footer /> */}
+        <Footer />
       </MainLayout>
     </>
   );
